@@ -21,7 +21,7 @@ COPY . .
 RUN ls -lsha
 
 RUN echo -- && pwd && ls -l
-# RUN ls -lsha /app/src/components
+RUN ls -lsha /app/src/
 
 # Build the app
 RUN npm run build
