@@ -29,8 +29,29 @@ jobs:
     - name: Checkout Run Lint
       run: cd starter/frontend && npm run lint
 
+Test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check the Repository
+      uses: actions/checkout@v3
+
+    - name: Use Node.js 18
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+        cache: 'npm'
+        cache-dependency-path: starter/frontend/package-lock.json
+    - name: Install Dependencies
+      working-directory: starter/frontend
+      run: npm ci
+  
+    - name: Test
+      run: cd starter/frontend && npm run test
+      
+
   Build:
-    needs: [Linting]
+    needs: [Linting, Test]
     runs-on: ubuntu-latest
     
     steps:
