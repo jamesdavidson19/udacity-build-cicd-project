@@ -1,92 +1,92 @@
-# This is a basic workflow to help you get started with Actions
+# Frontend workflow integration
+name: Frontend CI
 
-name: Frontend Continuous Integration
-
-# Controls when the workflow will run
+# Triggers for the workflow
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
-  pull_request:
-    branches: [ "main" ]
+  # Manual trigger using the workflow_dispatch event
+  workflow_dispatch:
 
-# Environment
-env:
-  NODE_VERSION: 18.14.2
-  IMAGE_REPO_NAME: my-frontend-app
+  # Automatic trigger on pull events to the main branch
+  pull_request:
+    branches:
+      - main
+
   
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# Jobs defined in the workflow
 jobs:
   lint:
-    name: LINT JOB
+    name: Lint-Job
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./starter/frontend
+
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Setup NodeJS
+      - name: Set up Node.js 
         uses: actions/setup-node@v3
         with:
-          node-version: ${{env.NODE_VERSION}}
-          
-      - name: Perform a cache action to restore cache before dependency install
-        id: cache-npm
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: npm-cache-${{ hashFiles('**/package-lock.json') }}
-          
-      - name: Install dependencies
-        run: |
-           npm ci
-           npm install eslint --save-dev
+          node-version: latest
+          cache: 'npm'
+          cache-dependency-path: starter/frontend/package-lock.json
+        
+      - name: Install Dependencies
+        working-directory: starter/frontend
+        run: npm ci
 
       - name: Run lint
         run: |
           npm run lint
           
   test:
-    name: TEST JOB
+    name: Test-job
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./starter/frontend
+
     steps:
-      - name: Checkout code
+      - name: Check Code
         uses: actions/checkout@v3
       
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
-          node-version: ${{env.NODE_VERSION}}
+          node-version: latest
+          cache: 'npm'
+          cache-dependency-path: starter/frontend/package-lock.json
       
-      - name: Perform a cache action to restore cache before dependency install
-        id: cache-npm-test
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: npm-cache-${{ hashFiles('**/package-lock.json') }}
-  
-      - name: Install dependencies
+       - name: Install dependencies
         run: |
           npm ci
-          npm install prettier --save-dev
   
-      - name: Run test
+       - name: Run test
         run: npm run test
 
   build:
-    name: BUILD JOB
+    name: Build
     needs: [lint, test]
     runs-on: ubuntu-latest
+
     defaults:
       run:
         working-directory: ./starter/frontend
+
     steps:
-      - name: Checkout code
+      - name: Check code
         uses: actions/checkout@v3
+
+      - name: Use NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+          cache: 'npm'
+          cache-dependency-path: starter/frontend/package-lock.json
+
         
       - name: Docker Build
         run: |
-          docker build -t ${{env.IMAGE_REPO_NAME}}:latest .
+          docker build --build-arg=REACT_APP_MOVIE_API_URL=http://localhost:5000 --tag=mp-frontend:latest .
+          docker run --name mp-frontend -p 3000:3000 -d mp-frontend]
