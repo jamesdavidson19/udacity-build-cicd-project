@@ -43,13 +43,10 @@ jobs:
   test:
     name: Test-job
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./starter/frontend
-
-      steps:
-        - name: Check Code
-          uses: actions/checkout@v3
+ 
+    steps:
+      - name: Check Code
+        uses: actions/checkout@v3
       
       - name: Setup NodeJS
         uses: actions/setup-node@v3
@@ -69,10 +66,6 @@ jobs:
     name: Build
     needs: [lint, test]
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: ./starter/frontend
 
     steps:
       - name: Check code
