@@ -19,6 +19,9 @@ RUN npm ci
 COPY . .
 
 RUN ls -lsha
+RUN ls -lsha ./components/MovieList
+RUN echo --
+RUN ls -lsha /app/src/components/MovieList
 
 # Build the app
 RUN npm run build
