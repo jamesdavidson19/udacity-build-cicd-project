@@ -25,9 +25,8 @@ jobs:
 
     - name: Install Dependencies
       working-directory: starter/frontend
-       run: |
-          npm ci
-          npm install eslint --save-dev
+      run: npm ci
+      run: npm install eslint --save-dev
 
 
     - name: Checkout Run Lint
