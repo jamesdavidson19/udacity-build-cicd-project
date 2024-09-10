@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-    - name: Check the Repository
+    - name: Check Code
       uses: actions/checkout@v3
 
     - name: Use Python 3
@@ -54,10 +54,10 @@ jobs:
       
   Build:
     needs: [Lint, Test]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     
     steps:
-    - name: Check the Repository
+    - name: Check Code
       uses: actions/checkout@v3
 
     - name: Build Docker Image
