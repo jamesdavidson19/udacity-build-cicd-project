@@ -81,18 +81,23 @@ jobs:
 
 
     - name: Build and Push Docker Image
-      working-directory: starter/frontend
+      id: build-and-push
       env:
-        IMAGE_TAG: latest
-        REPO_NAME: frontend
+        REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        REPOSITORY: udacity
+        IMAGE_TAG: ${{ github.sha }}
       run: |
-        docker build --build-arg=REACT_APP_MOVIE_API_URL=http://a1a775e22a1fc44d5b986eb03cfac829-1095911390.us-east-1.elb.amazonaws.com --tag 677218928690.dkr.ecr.us-east-1.amazonaws.com/$REPO_NAME:$IMAGE_TAG .
-        docker push 677218928690.dkr.ecr.us-east-1.amazonaws.com/$REPO_NAME:$IMAGE_TAG
+          cd starter/frontend
+          docker build --no-cache --build-arg=REACT_APP_MOVIE_API_URL=http://localhost:5000 -t $REGISTRY/$REPOSITORY:frontend-$IMAGE_TAG .
+          docker push $REGISTRY/$REPOSITORY:frontend-$IMAGE_TAG
+
+          echo "::set-output name=REPOSITORY::$REPOSITORY"
+          echo "::set-output name=IMAGE_TAG::frontend-$IMAGE_TAG"
     
 
     - name: Configure Kubeconfig
       run:
-       aws eks update-kubeconfig --name cluster --region us-east-1
+          aws eks update-kubeconfig --name cluster --region us-east-1
 
 
     - name: Deploy Docker Image to Amazon EKS
