@@ -1,4 +1,4 @@
-name: Frontend Continuous Deployment
+name: Frontend CD 
 
 on:
   workflow_dispatch:
@@ -7,12 +7,14 @@ on:
       - main
 
 jobs:
-  Linting:
+  Lint:
     runs-on: ubuntu-latest
-    environment: Devlopmnet Environment
+    defaults:
+      run:
+        working-directory: ./starter/frontend
 
     steps:
-    - name: Check the Repository
+    - name: Check Code
       uses: actions/checkout@v3
 
     - name: Use Node.js 18
@@ -53,7 +55,7 @@ jobs:
 
 
   Build:
-    needs: [Linting, Test]
+    needs: [Lint, Test]
     runs-on: ubuntu-latest
     
     steps:
