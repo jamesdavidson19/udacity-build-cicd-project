@@ -47,7 +47,8 @@ jobs:
       run: npm ci
   
     - name: Test
-      run: cd starter/frontend && npm run test
+      working-directory: starter/frontend
+      run: npm run test
      
 
   Build:
