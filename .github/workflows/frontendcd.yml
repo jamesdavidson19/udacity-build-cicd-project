@@ -34,7 +34,7 @@ jobs:
       run: npm run lint
 
   Test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
     - name: Check the Repository
@@ -52,13 +52,14 @@ jobs:
       run: npm ci
   
     - name: Test
-      run: cd starter/frontend && npm run test
+      working-directory: starter/frontend
+      run: npm run test
 
-
+# Build job which runs only if Lint and Test pass
 
   Build:
     needs: [Lint, Test]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     
     steps:
     - name: Check the Repository
@@ -86,7 +87,7 @@ jobs:
 
 
     - name: Build and Push Docker Image
-      id: build-and-push
+    
       env:
         REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         REPOSITORY: frontend
