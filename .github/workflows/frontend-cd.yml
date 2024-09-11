@@ -92,6 +92,7 @@ jobs:
         REPOSITORY: frontend
         IMAGE_TAG: ${{ github.sha }}
       run: |
+          echo $REGISTRY $IMAGE_TAG $REPOSITORY
           cd starter/frontend
           docker build --no-cache --build-arg=REACT_APP_MOVIE_API_URL=http://localhost:5000 -t $REGISTRY/$REPOSITORY:frontend-$IMAGE_TAG .
           docker push $REGISTRY/$REPOSITORY:frontend-$IMAGE_TAG
@@ -108,5 +109,5 @@ jobs:
         IMAGE_TAG: ${{ github.sha }}
         REPOSITORY: frontend
       run: |
-          kustomize edit set image frontend=677218928690.dkr.ecr.us-east-1.amazonaws.com/$REPOSITORY:$IMAGE_TAG
+          kustomize edit set image frontend=677218928690.dkr.ecr.us-east-1.amazonaws.com/$REPOSITORY:frontend-$IMAGE_TAG
           kustomize build | kubectl apply -f -
