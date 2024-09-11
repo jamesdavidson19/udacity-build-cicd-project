@@ -80,9 +80,11 @@ jobs:
         aws-region: us-east-1
   
 
-  #  - name: Login to Amazon 
-   #   id: login-ecr
-   #   uses: aws-actions/amazon-ecr-login@v2
+    - name: Login to docker ECR Login 
+      id: login-ecr
+      run: |
+      result=$(aws ecr get-login-password --region | docker login --username AWS --password-stdin ${{ env.ECR_REGISTRY }})
+      echo "Login Result: $result"
 
 
     - name: Build and Push Docker Image
