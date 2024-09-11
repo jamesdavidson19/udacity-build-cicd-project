@@ -94,7 +94,7 @@ jobs:
       run:
        aws eks update-kubeconfig --name cluster --region us-east-1
 
-    - name: Deploy Docker Image to Amazon EKS
+    - name: Deploy Docker to Amazon EKS
       working-directory: starter/backend/k8s
       env:
         IMAGE_TAG: ${{ github.sha }}
