@@ -1,10 +1,14 @@
 name: Frontend Continuous Integration
 
+# Workflow Controls
+
 on:
   workflow_dispatch:
   pull_request:
     branches:
       - main
+
+# Workflow Jobs
 
 jobs:
   Lint:
@@ -25,7 +29,7 @@ jobs:
       working-directory: starter/frontend
       run: npm ci
 
-    - name: Checkout Run Lint
+    - name: Run Lint
       working-directory: starter/frontend
       run: npm run lint
 
@@ -33,7 +37,7 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-    - name: Check the Repository
+    - name: Check Code
       uses: actions/checkout@v3
 
     - name: Use Node.js 20
@@ -50,6 +54,7 @@ jobs:
       working-directory: starter/frontend
       run: npm run test
      
+# Build job which runs only if Lint and Test pass
 
   Build:
     needs: [Lint, Test]

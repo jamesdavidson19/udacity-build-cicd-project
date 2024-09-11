@@ -1,10 +1,14 @@
 name: Frontend Continuous Deployment
 
+# Workflow Controls
+
 on:
   workflow_dispatch:
   push:
     branches:
       - main
+
+# Workflow jobs 
 
 jobs:
   Lint:
