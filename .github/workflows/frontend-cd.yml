@@ -109,5 +109,5 @@ jobs:
         IMAGE_TAG: ${{ github.sha }}
         REPO_NAME: frontend
       run: |
-          kustomize edit set image frontend=$REPO_NAME:$IMAGE_TAG
+          kustomize edit set image frontend=677218928690.dkr.ecr.us-east-1.amazonaws.com/$REGISTRY/$REPOSITORY:$IMAGE_TAG
           kustomize build | kubectl apply -f -
