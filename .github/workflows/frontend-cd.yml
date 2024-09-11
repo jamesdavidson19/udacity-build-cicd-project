@@ -89,7 +89,7 @@ jobs:
         aws-region: us-east-1
 
 
- - name: Build and Push Docker Image
+    - name: Build and Push Docker Image
       working-directory: starter/frontend
       env:
         IMAGE_TAG: latest
