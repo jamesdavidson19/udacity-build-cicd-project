@@ -75,7 +75,7 @@ jobs:
           
       run: |
         cd starter/frontend
-        EXTERNAL_API=$(kubectl get svc backend -o=jsonpath='{.status.loadBalancer.ingress[0].hostname}{"\n"}{.status.loadBalancer.ingress[0].ip}')
+        export EXTERNAL_API=$(kubectl get svc backend -o=jsonpath='{.status.loadBalancer.ingress[0].hostname}{"\n"}{.status.loadBalancer.ingress[0].ip}')
         echo $EXTERNAL_API
         docker build --build-arg=REACT_APP_MOVIE_API_URL=http://$EXTERNAL_API --tag=mp-frontend:latest .
        
