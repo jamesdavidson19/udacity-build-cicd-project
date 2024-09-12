@@ -83,7 +83,11 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v2
       
- 
+    - name: Date
+      run: |
+        now$(date)
+        echo "My env date is: $now"
+
     - name: Build and Push Docker Image
     
       env:
