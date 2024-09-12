@@ -95,11 +95,10 @@ jobs:
         REPOSITORY: frontend
         IMAGE_TAG: ${{ github.sha }}
       run: |
+          aws eks update-kubeconfig --name cluster --region us-east-1
           export EXTERNAL_API=$(kubectl get svc backend -o=jsonpath='{.status.loadBalancer.ingress[0].hostname}{"\n"}{.status.loadBalancer.ingress[0].ip}')
           echo $REGISTRY $IMAGE_TAG $REPOSITORY
           echo "${{ env.EXTERNAL_API }}"
-          now$(date)
-          echo "My env date is: $now"
           cd starter/frontend
           docker build --no-cache --build-arg=REACT_APP_MOVIE_API_URL=http://$EXTERNAL_API -t $REGISTRY/$REPOSITORY:frontend-$IMAGE_TAG .
           docker push $REGISTRY/$REPOSITORY:frontend-$IMAGE_TAG
