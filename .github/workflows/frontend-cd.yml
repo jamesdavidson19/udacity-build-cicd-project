@@ -88,7 +88,7 @@ jobs:
     - name: Build and Push Docker Image
     
       env:
-        EXTERNAL_API: $(kubectl get svc backend -o=jsonpath='{.status.loadBalancer.ingress[0].hostname}{"\n"}{.status.loadBalancer.ingress[0].ip}')
+        EXTERNAL_API: $((kubectl get svc backend -o=jsonpath='{.status.loadBalancer.ingress[0].hostname}{"\n"}{.status.loadBalancer.ingress[0].ip}'))
         REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         REPOSITORY: frontend
         IMAGE_TAG: ${{ github.sha }}
