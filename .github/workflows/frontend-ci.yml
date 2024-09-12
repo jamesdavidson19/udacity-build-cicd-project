@@ -72,12 +72,11 @@ jobs:
         cache-dependency-path: starter/frontend/package-lock.json
 
     - name: Build Docker Image
-      
-      env: 
-        EXTERNAL_API: $(kubectl get svc backend -o=jsonpath='{.status.loadBalancer.ingress[0].hostname}{"\n"}{.status.loadBalancer.ingress[0].ip}')
-
+          
       run: |
         cd starter/frontend
+        EXTERNAL_API=$(kubectl get svc backend -o=jsonpath='{.status.loadBalancer.ingress[0].hostname}{"\n"}{.status.loadBalancer.ingress[0].ip}')
+        echo $EXTERNAL_API
         docker build --build-arg=REACT_APP_MOVIE_API_URL=http://$EXTERNAL_API --tag=mp-frontend:latest .
        
     - name: Run Docker image
