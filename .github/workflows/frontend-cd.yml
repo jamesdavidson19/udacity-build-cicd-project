@@ -107,10 +107,9 @@ jobs:
     - name: Deploy Docker Image to Amazon EKS
       working-directory: starter/frontend/k8s
       env:
-        REGISTRYAWS: ${{ steps.login-aws.outputs.registry }}
         IMAGE_TAG: ${{ github.sha }}
         REPOSITORY: frontend
       run: |
           echo "REGISTRYAWS"
-          kustomize edit set image frontend=$REGISTRYAWS/$REPOSITORY:frontend-$IMAGE_TAG
+          kustomize edit set image frontend=677218928690.dkr.ecr.us-east-1.amazonaws.com/.dkr.ecr.us-east-1.amazonaws.com/$REPOSITORY:frontend-$IMAGE_TAG
           kustomize build | kubectl apply -f -
