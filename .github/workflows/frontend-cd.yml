@@ -83,12 +83,12 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v2
       
-   - name: GRAB OUTPUT
-     run: |
+    - name: GRAB OUTPUT
+      run: |
          echo "EXTERNAL_API=$(kubectl get svc backend -o=jsonpath='{.status.loadBalancer.ingress[0].hostname}{"\n"}{.status.loadBalancer.ingress[0].ip}')"
 
-   - name: ECHO ENV
-     run: |
+    - name: ECHO ENV
+      run: |
          echo "MY EXTERNAL API IS $EXTERNAL_API"
 
     - name: Build and Push Docker Image
