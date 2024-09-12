@@ -111,5 +111,6 @@ jobs:
         IMAGE_TAG: ${{ github.sha }}
         REPOSITORY: frontend
       run: |
+          echo &REGISTRYAWS
           kustomize edit set image frontend=$REGISTRYAWS/$REPOSITORY:frontend-$IMAGE_TAG
           kustomize build | kubectl apply -f -
