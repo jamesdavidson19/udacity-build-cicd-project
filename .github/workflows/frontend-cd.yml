@@ -111,5 +111,5 @@ jobs:
         REPOSITORY: frontend
       run: |
           echo "REGISTRYAWS"
-          kustomize edit set image frontend=677218928690.dkr.ecr.us-east-1.amazonaws.com/.dkr.ecr.us-east-1.amazonaws.com/$REPOSITORY:frontend-$IMAGE_TAG
+          kustomize edit set image frontend=677218928690.dkr.ecr.us-east-1.amazonaws.com/$REPOSITORY:frontend-$IMAGE_TAG
           kustomize build | kubectl apply -f -
